@@ -26,9 +26,9 @@ Git 是一個免費的小工具，`git clone` 這個指令會把整個專案複�
 
 **先確認電腦有沒有 Git**
 
-- **Mac**：分成三小步：看有沒有 Git → 沒有就裝 Homebrew 再裝 Git → 設定 PATH 讓終端機找得到它。照順序做，每一步都有確認方法。
+- **Mac**：一律用 Homebrew 安裝 Git，不用 Apple 內建的版本。分成三小步：確認目前狀態 → 裝 Homebrew 再裝 Git → 設定 PATH 讓終端機用 Homebrew 的 Git。照順序做，每一步都有確認方法。
 
-  **Mac 步驟 1：看電腦有沒有 Git**
+  **Mac 步驟 1：確認目前的狀態**
 
   打開「終端機」app（Launchpad 搜尋「終端機」，或到「應用程式 → 工具程式」裡），輸入下面這行，按 Enter：
 
@@ -36,9 +36,9 @@ Git 是一個免費的小工具，`git clone` 這個指令會把整個專案複�
   git --version
   ```
 
-  - 看到 `git version 2.x.x` 這種字：已經有 Git，直接跳到「下載專案」。
-  - 跳出視窗問你要不要安裝「命令列開發者工具」：這是 Apple 內建的 Git，按 **安裝** 等它跑完（幾分鐘），再輸入一次 `git --version` 看到版本號就可以用了，也可以直接跳到「下載專案」。想用 Homebrew 管理的話再繼續步驟 2。
-  - 出現 `command not found` 或什麼都沒有：繼續步驟 2。
+  - 跳出視窗問你要不要安裝「命令列開發者工具」：按 **取消**，不用理它，直接做步驟 2（Homebrew 會用自己的方式處理這件事）。
+  - 看到 `git version 2.x.x`：電腦裡已經有一個 Git，但可能是 Apple 內建的舊版本。一樣做步驟 2 和 3，之後就會換成 Homebrew 的版本。
+  - 出現 `command not found`：做步驟 2。
 
   **Mac 步驟 2：安裝 Homebrew，再用它安裝 Git**
 
@@ -67,7 +67,7 @@ Git 是一個免費的小工具，`git clone` 這個指令會把整個專案複�
 
   **Mac 步驟 3：設定 PATH，讓終端機用 Homebrew 的 Git**
 
-  PATH 是終端機找程式的順序清單。Mac 內建的 Git 在 `/usr/bin`，Homebrew 裝的在 `/opt/homebrew/bin`；如果 PATH 沒有把 Homebrew 的位置排在前面，你打 `git` 用到的還是舊的內建版本。步驟 2 最後那幾行已經把 Homebrew 排在前面了，這裡再確認一次並保險起見固定住。輸入：
+  PATH 是終端機找程式的順序清單。Mac 內建的 Git 在 `/usr/bin`，Homebrew 裝的在 `/opt/homebrew/bin`；如果 PATH 沒有把 Homebrew 的位置排在前面，你打 `git` 用到的還是舊的內建版本。步驟 2 最後那幾行已經把 Homebrew 排在前面了，這裡再固定住，確保之後每個新視窗都用 Homebrew 的 Git。輸入：
 
   ```bash
   echo 'export PATH="$(brew --prefix git)/bin:$PATH"' >> ~/.zshrc
@@ -90,7 +90,7 @@ Git 是一個免費的小工具，`git clone` 這個指令會把整個專案複�
   - 打 `brew` 出現 `command not found: brew`：步驟 2 的 Next steps 那幾行沒執行到，回去貼上執行，然後開新的終端機視窗。
   - `which git` 還是顯示 `/usr/bin/git`：代表 PATH 沒生效，確認 `~/.zshrc` 那行有寫進去（輸入 `cat ~/.zshrc` 看最後一行），然後一定要開**新的**終端機視窗。
   - Homebrew 安裝到一半斷線失敗：重新貼上同一行安裝指令再跑一次，它會接著做。
-  - 這個工作台本身只需要「有一個能用的 Git」，Apple 內建的版本就夠；Homebrew 的好處是之後 `brew upgrade git` 就能更新，也方便裝其他工具。
+  - 之後要更新 Git，輸入 `brew upgrade git` 就好。
 - **Windows**：到 <https://git-scm.com/download/win> 下載 Git for Windows，執行安裝程式，全部用預設值一路按 **Next** 到完成。安裝完，打開一個**新的** PowerShell 視窗（按開始鍵，輸入 `PowerShell`，按 Enter），輸入 `git --version`，看到 `git version 2.x.x` 就對了。
 
 **下載專案**
