@@ -26,13 +26,71 @@ Git 是一個免費的小工具，`git clone` 這個指令會把整個專案複�
 
 **先確認電腦有沒有 Git**
 
-- **Mac**：打開「終端機」app（在「應用程式 → 工具程式」裡），輸入下面這行，按 Enter：
+- **Mac**：分成三小步：看有沒有 Git → 沒有就裝 Homebrew 再裝 Git → 設定 PATH 讓終端機找得到它。照順序做，每一步都有確認方法。
+
+  **Mac 步驟 1：看電腦有沒有 Git**
+
+  打開「終端機」app（Launchpad 搜尋「終端機」，或到「應用程式 → 工具程式」裡），輸入下面這行，按 Enter：
 
   ```bash
   git --version
   ```
 
-  看到 `git version 2.x.x` 這種字就表示有了。如果跳出視窗問你要不要安裝「命令列開發者工具」，按 **安裝**，等它跑完（幾分鐘），再輸入一次 `git --version` 確認。
+  - 看到 `git version 2.x.x` 這種字：已經有 Git，直接跳到「下載專案」。
+  - 跳出視窗問你要不要安裝「命令列開發者工具」：這是 Apple 內建的 Git，按 **安裝** 等它跑完（幾分鐘），再輸入一次 `git --version` 看到版本號就可以用了，也可以直接跳到「下載專案」。想用 Homebrew 管理的話再繼續步驟 2。
+  - 出現 `command not found` 或什麼都沒有：繼續步驟 2。
+
+  **Mac 步驟 2：安裝 Homebrew，再用它安裝 Git**
+
+  Homebrew 是 Mac 上最常用的「軟體安裝工具」，裝好之後之後要裝任何開發工具都是一行指令。在終端機貼上下面這整行，按 Enter：
+
+  ```bash
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ```
+
+  過程中會發生這些事，都是正常的：
+
+  1. 它會列出要安裝的東西，問你「Press RETURN/ENTER to continue or any other key to abort」，按 Enter。
+  2. 要求輸入 Mac 的登入密碼。**打字時畫面不會顯示任何字元**，打完直接按 Enter。
+  3. 如果電腦還沒有「命令列開發者工具」，它會順便下載安裝，這一段最久，可能十幾分鐘，畫面不動是正常的。
+  4. 最後會印出一段 **Next steps**，裡面有兩三行以 `echo` 和 `eval` 開頭的指令，要你複製貼上執行。**這一步不能跳過**，它就是在設定 PATH（步驟 3 會再說明）。Apple 晶片的 Mac 那幾行是：
+
+  ```bash
+  echo >> ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)"
+  ```
+
+  貼上執行後輸入 `brew --version`，看到 `Homebrew 4.x.x` 就表示 Homebrew 裝好了。接著安裝 Git：
+
+  ```bash
+  brew install git
+  ```
+
+  **Mac 步驟 3：設定 PATH，讓終端機用 Homebrew 的 Git**
+
+  PATH 是終端機找程式的順序清單。Mac 內建的 Git 在 `/usr/bin`，Homebrew 裝的在 `/opt/homebrew/bin`；如果 PATH 沒有把 Homebrew 的位置排在前面，你打 `git` 用到的還是舊的內建版本。步驟 2 最後那幾行已經把 Homebrew 排在前面了，這裡再確認一次並保險起見固定住。輸入：
+
+  ```bash
+  echo 'export PATH="$(brew --prefix git)/bin:$PATH"' >> ~/.zshrc
+  ```
+
+  然後**關掉終端機視窗，重新開一個**（設定只在新視窗生效），輸入下面兩行確認：
+
+  ```bash
+  which git
+  ```
+
+  ```bash
+  git --version
+  ```
+
+  `which git` 應該顯示 `/opt/homebrew/bin/git`（或 `/opt/homebrew/opt/git/bin/git`），`git --version` 顯示版本號，就完成了。
+
+  **Mac 常見狀況**
+
+  - 打 `brew` 出現 `command not found: brew`：步驟 2 的 Next steps 那幾行沒執行到，回去貼上執行，然後開新的終端機視窗。
+  - `which git` 還是顯示 `/usr/bin/git`：代表 PATH 沒生效，確認 `~/.zshrc` 那行有寫進去（輸入 `cat ~/.zshrc` 看最後一行），然後一定要開**新的**終端機視窗。
+  - Homebrew 安裝到一半斷線失敗：重新貼上同一行安裝指令再跑一次，它會接著做。
+  - 這個工作台本身只需要「有一個能用的 Git」，Apple 內建的版本就夠；Homebrew 的好處是之後 `brew upgrade git` 就能更新，也方便裝其他工具。
 - **Windows**：到 <https://git-scm.com/download/win> 下載 Git for Windows，執行安裝程式，全部用預設值一路按 **Next** 到完成。安裝完，打開一個**新的** PowerShell 視窗（按開始鍵，輸入 `PowerShell`，按 Enter），輸入 `git --version`，看到 `git version 2.x.x` 就對了。
 
 **下載專案**
