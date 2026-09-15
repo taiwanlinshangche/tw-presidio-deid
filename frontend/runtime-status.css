@@ -1,0 +1,30 @@
+/* 啟動檢查清單：安裝頁（純 HTML）使用；首頁改用 React 卡片（BootChecklist）。 */
+.runtime-checklist { width: min(520px, 100%); color: var(--ink); }
+.runtime-checklist-heading { margin: 0 0 4px; font-size: 21px; font-weight: 600; line-height: 1.4; }
+.reveal-char { display: inline-block; animation: reveal-char var(--dur-reveal) var(--ease-reveal) both; animation-delay: var(--d, 0ms); }
+.reveal-char:nth-child(2), .reveal-char:nth-child(3) { --d: 80ms; }
+.runtime-checklist-summary { margin: 0 0 16px; color: var(--muted); font-size: 13px; animation: fade-up 200ms var(--ease-out) 150ms both; }
+.runtime-checklist-list { margin: 0; padding: 0; list-style: none; }
+.runtime-checklist-list { border-block: 1px solid var(--line); }
+.runtime-checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 36px; padding: 6px 4px; border-bottom: 1px solid var(--line); animation: fade-up 250ms var(--ease-out) both; animation-delay: calc(120ms + var(--i, 0) * 30ms); }
+.runtime-checklist-item:nth-child(2) { --i: 1; } .runtime-checklist-item:nth-child(3) { --i: 2; } .runtime-checklist-item:nth-child(4) { --i: 3; } .runtime-checklist-item:nth-child(5) { --i: 4; }
+.runtime-checklist-item:nth-child(6) { --i: 5; } .runtime-checklist-item:nth-child(7) { --i: 6; } .runtime-checklist-item:nth-child(8) { --i: 7; } .runtime-checklist-item:nth-child(9) { --i: 8; } .runtime-checklist-item:nth-child(10) { --i: 9; }
+.runtime-checklist-item:last-child { border-bottom: 0; }
+.runtime-checklist-copy { min-width: 0; display: grid; gap: 3px; text-align: left; }
+.runtime-checklist-label { font-size: 14px; }
+.runtime-checklist-detail { color: var(--muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; animation: fade-in 150ms var(--ease-out) both; }
+.runtime-checklist-status { flex: none; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; white-space: nowrap; transition: color var(--dur-color) ease, opacity var(--dur-color) ease; }
+.runtime-checklist-status[data-status="pending"] { opacity: .7; }
+.runtime-checklist-status[data-status="ready"] { color: var(--accent); }
+.runtime-checklist-status[data-status="missing"], .runtime-checklist-status[data-status="error"] { color: var(--danger); }
+.runtime-checklist-status[data-status="ready"] .runtime-checklist-status-text,
+.runtime-checklist-status[data-status="missing"] .runtime-checklist-status-text,
+.runtime-checklist-status[data-status="error"] .runtime-checklist-status-text { display: inline-block; animation: status-in 200ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 40ms); }
+/* checking：AI Loader「dots」的 CSS 版，同 1.2s 節拍 */
+.runtime-checklist-dots { display: none; gap: 3px; }
+.runtime-checklist-status[data-status="checking"] .runtime-checklist-dots { display: inline-flex; }
+.runtime-checklist-dots i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; animation: dots-pulse var(--dur-loop) var(--ease-loader) infinite; }
+.runtime-checklist-dots i:nth-child(2) { animation-delay: 200ms; }
+.runtime-checklist-dots i:nth-child(3) { animation-delay: 400ms; }
+
+@media (max-width: 380px) { .runtime-checklist-item { gap: 10px; } }

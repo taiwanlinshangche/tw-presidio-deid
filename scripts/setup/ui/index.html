@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>準備工作台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/setup/tokens.css">
+  <link rel="stylesheet" href="/setup/style.css">
+  <link rel="stylesheet" href="/setup/runtime-status.css">
+  <script type="module" src="/setup/main.js"></script>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">本機去識別化工作台</p>
+    <section id="checklist" aria-label="啟動檢查清單"></section>
+    <p id="status" role="status" aria-live="polite">正在檢查必要元件…</p>
+    <div id="progress-area">
+      <progress id="progress" max="100" aria-label="安裝進度"></progress>
+      <span id="percent"></span>
+    </div>
+    <button id="install" type="button" hidden>安裝缺少的元件</button>
+    <button id="start" type="button" disabled>開始</button>
+    <p class="note">首次安裝需要網路，可能需要幾分鐘。<br>完成後可離線使用，文件只在這台電腦處理。</p>
+  </main>
+</body>
+</html>

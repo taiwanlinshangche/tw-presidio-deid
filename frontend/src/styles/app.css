@@ -1,0 +1,76 @@
+@layer theme, base, legacy, components, utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../../style.css" layer(legacy);
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-card: var(--paper);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--paper);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--paper);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--tint);
+  --color-accent-foreground: var(--accent);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--paper);
+  --color-border: var(--line);
+  --color-input: var(--line);
+  --color-ring: var(--accent);
+  --color-brand: var(--accent);
+  --color-brand-foreground: var(--paper);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-tint: var(--tint);
+  --color-tint-2: var(--tint-2);
+  --color-accent-2: var(--accent-2);
+  --color-danger: var(--danger);
+  --color-danger-tint: var(--danger-tint);
+  --color-danger-line: var(--danger-line);
+  --color-mark: var(--mark);
+  --color-mark-hover: var(--mark-hover);
+  --color-mark-hover-ink: var(--mark-hover-ink);
+
+  --radius-sm: var(--radius-1);
+  --radius-md: var(--radius-2);
+  --radius-lg: var(--radius-3);
+  --radius-xl: var(--radius-4);
+  --radius-2xl: var(--radius-4);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --ease-in: initial;
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+  --ease-drawer: var(--ease-drawer);
+  --ease-reveal: var(--ease-reveal);
+  --ease-loader: var(--ease-loader);
+
+  --text-xs: 12px; --text-xs--line-height: 1.5;
+  --text-sm: 13px; --text-sm--line-height: 1.5;
+  --text-base: 15px; --text-base--line-height: 1.6;
+  --text-md: 17px; --text-md--line-height: 1.55;
+  --text-lg: 21px; --text-lg--line-height: 1.5;
+  --text-xl: 26px; --text-xl--line-height: 1.4;
+  --text-2xl: 32px; --text-2xl--line-height: 1.4;
+}
+

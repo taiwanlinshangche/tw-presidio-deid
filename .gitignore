@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+.DS_Store
+test-results/
+playwright-report/
+work/
+
+# 專案專用執行環境、下載快取與首次安裝狀態
+.runtime/

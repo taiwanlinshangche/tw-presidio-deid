@@ -1,0 +1,4 @@
+presidio-analyzer==2.2.364
+transformers==4.57.6
+torch==2.14.0
+huggingface-hub==0.36.2

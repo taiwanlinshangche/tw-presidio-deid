@@ -1,0 +1,32 @@
+:root {
+  color-scheme: light;
+  /* 既有色相 */
+  --ink: oklch(28% .009 150); --muted: oklch(50% .008 150); --line: oklch(89% .007 150);
+  --paper: oklch(99% .003 100); --surface: oklch(96% .005 150); --accent: oklch(39% .05 155); --tint: oklch(93% .025 150);
+  /* 新增階 */
+  --ink-2: oklch(40% .009 150); --line-2: oklch(82% .008 150); --surface-2: oklch(93% .006 150);
+  --accent-2: oklch(33% .055 155); --tint-2: oklch(88% .04 150);
+  --danger: oklch(46% .13 35); --danger-tint: oklch(96% .03 35); --danger-line: oklch(86% .07 35);
+  --mark: oklch(95% .055 88); --mark-line: oklch(64% .08 88); --mark-hover: oklch(92% .075 88); --mark-hover-ink: oklch(38% .12 50);
+  /* 圓角與陰影 */
+  --radius-1: 4px; --radius-2: 8px; --radius-3: 12px; --radius-4: 16px;
+  --shadow-sm: 0 1px 2px oklch(25% .01 150 / .08);
+  --shadow-md: 0 4px 16px oklch(25% .01 150 / .10), 0 1px 3px oklch(25% .01 150 / .06);
+  --shadow-lg: 0 12px 40px oklch(25% .01 150 / .12), 0 2px 6px oklch(25% .01 150 / .06);
+  /* 緩動 */
+  --ease-out: cubic-bezier(.23, 1, .32, 1); --ease-in-out: cubic-bezier(.77, 0, .175, 1); --ease-drawer: cubic-bezier(.32, .72, 0, 1);
+  --ease-reveal: cubic-bezier(.22, 1, .36, 1); --ease-expo: cubic-bezier(.16, 1, .3, 1); --ease-loader: cubic-bezier(.645, .045, .355, 1);
+  /* 時長 */
+  --dur-color: 120ms; --dur-press: 120ms; --dur-hover: 160ms; --dur-tip: 150ms; --dur-pop: 180ms;
+  --dur-modal: 200ms; --dur-modal-out: 150ms; --dur-enter: 250ms; --dur-move: 300ms; --dur-reveal: 620ms; --dur-loop: 1200ms;
+  /* 節奏（非動效）：啟動卡片逐張揭露的間隔、辨識畫面最短停留；減少動態時皆為 0 */
+  --dur-check-step: 1000ms; --dur-analysis-min: 7000ms; /* ＝「讓我幫你看看」→2s→「嗯」→2s 的基本節奏 */
+  /* 大區塊的進場／離場／形變：偏慢，帶呼吸感 */
+  --dur-block: 700ms; --dur-leave: 450ms; --dur-morph: 2000ms; --dur-done: 2000ms;
+  /* 字體 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper); /* 必須留在 :root：deid.spec 比對遮罩文字色與 html 背景色 */
+}
