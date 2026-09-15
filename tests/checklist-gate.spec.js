@@ -22,11 +22,12 @@ test('missing card offers 安裝, install runs through the launcher, then one cl
   await expect(cards(page).nth(6)).toContainText('模型檔案不完整');
   await expect(cards(page).nth(9)).toHaveAttribute('data-status', 'blocked');
   await expect(page.locator('#startup-message')).toBeHidden();
-  await expect(page.locator('#setup-link')).toHaveCount(0);
   await expect(choose(page)).toBeHidden();
   await expect(choose(page)).toBeDisabled();
-  await page.getByRole('button', { name: '安裝：CKIP 中文模型' }).click();
+  await expect(page.locator('#startup-checklist .boot-card[data-shown]')).toHaveCount(10); // 十張都檢查完才出現按鈕
+  await page.getByRole('button', { name: '安裝全部' }).click();
   expect(installs).toBe(1);
+  await expect(page.locator('#install-all')).toHaveCount(0);
   await expect(cards(page).nth(6)).toContainText('安裝中 25%');
   await expect(page.locator('#drop-zone')).not.toContainText('正在下載中文模型…'); // 卡片下方沒有任何進度文字
   state = { status: 'ready', items: RUNTIME_ITEMS.map(({ id }) => ({ id, status: 'ready' })) };

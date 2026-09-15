@@ -9,7 +9,7 @@ const UV = {
   'darwin-arm64': { archive: 'uv-aarch64-apple-darwin.tar.gz', sha: '7e6ddb9316acc00f2296c82ff4d99977870ee34b2f0ddcae9444d714db9364ed', binary: 'uv-aarch64-apple-darwin/uv' },
   'win32-x64': { archive: 'uv-x86_64-pc-windows-msvc.zip', sha: 'a86c9dc7bad9b03f388583b7187c05fe9951c2e0d392217e8fd43d97787f6ec2', binary: 'uv.exe' },
 };
-async function treeHash(directory) {
+export async function treeHash(directory) {
   const hash = createHash('sha256');
   async function visit(path, prefix = '') {
     for (const entry of (await readdir(path, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
@@ -32,11 +32,20 @@ export async function saveBuild(root) {
   await mkdir(join(root, '.runtime'), { recursive: true });
   await writeFile(join(root, '.runtime/build.json'), JSON.stringify({ source: await frontendFingerprint(root), output: await treeHash(join(root, 'dist')) }));
 }
-export async function validBuild(root) {
+async function manifestMatches(root, path) {
   try {
-    const saved = JSON.parse(await readFile(join(root, '.runtime/build.json'), 'utf8'));
+    const saved = JSON.parse(await readFile(join(root, path), 'utf8'));
     return existsSync(join(root, 'dist/index.html')) && saved.source === await frontendFingerprint(root) && saved.output === await treeHash(join(root, 'dist'));
   } catch { return false; }
+}
+// 隨 repo 一起發布的建置紀錄：全新下載的人不需要 npm 也能直接使用 dist/。發布前執行 `npm run build:release` 產生。
+export const SHIPPED_MANIFEST = 'frontend-build.json';
+export async function writeBuildManifest(root) {
+  await writeFile(join(root, SHIPPED_MANIFEST), JSON.stringify({ source: await frontendFingerprint(root), output: await treeHash(join(root, 'dist')) }, null, 2) + '\n');
+}
+export function shippedBuildValid(root) { return manifestMatches(root, SHIPPED_MANIFEST); }
+export async function validBuild(root) {
+  return await manifestMatches(root, '.runtime/build.json') || shippedBuildValid(root);
 }
 export function runtimeEnvironment(root) {
   const runtime = join(root, '.runtime');
@@ -86,7 +95,8 @@ export function installSteps(root, runner) {
   const npm = args => runner.run(process.execPath, [npmCLI(), ...args]);
   return [
     { id: 'frontend', itemIds: ['frontend'], label: '準備網頁元件',
-      check: () => validFrontendDependencies(root, runner),
+      // 隨 repo 發布的建置有效時不需要 npm 套件；只有原始碼更新後才需要 npm ci 重建。
+      check: async () => await validBuild(root) || validFrontendDependencies(root, runner),
       install: async () => { await npm(['ci', '--include=dev', '--no-audit', '--no-fund']); await writeFile(join(runtime, 'npm-lock.sha'), createHash('sha256').update(await readFile(join(root, 'package-lock.json'))).digest('hex')); },
     },
     { id: 'python', itemIds: ['python'], label: '準備 Python',
@@ -169,6 +179,7 @@ export async function inspectRuntime(root, runner, publish) {
     publish({ id, status: id === 'python' ? 'missing' : 'blocked', detail: id === 'python' ? '專案 Python 無法執行' : '需先準備可用的 Python 檢查環境' });
   }
   publish({ id: 'frontend', status: 'checking' });
-  const usable = await validFrontendDependencies(root, runner) && await validBuild(root);
-  publish({ id: 'frontend', status: usable ? 'ready' : 'missing', detail: usable ? '網頁套件與建置有效' : '網頁套件或建置需要準備' });
+  // 建置有效（本機建置紀錄或隨 repo 發布的 frontend-build.json）就能執行；npm 套件只在需要重建時才檢查。
+  const usable = await validBuild(root);
+  publish({ id: 'frontend', status: usable ? 'ready' : 'missing', detail: usable ? '網頁建置有效' : '網頁建置需要重新產生' });
 }

@@ -20,7 +20,7 @@ export function createSetupServer({ root, manager, instance, getBackendPort = ()
     }
     if (req.method === 'GET' && req.url === '/api/setup/status') return send(200, { ...manager.state, instance });
     if (req.method === 'POST' && req.url === '/api/setup/install') {
-      if (req.headers.origin !== origin || req.headers['x-deid-setup'] !== '1') return send(403, { error: '請從安裝頁啟動。' });
+      if (req.headers.origin !== origin || req.headers['x-deid-setup'] !== '1') return send(403, { error: '請從工作台啟動。' });
       if (req.headers['transfer-encoding'] || Number(req.headers['content-length'] || 0) !== 0) return send(400, { error: '安裝不接受額外參數。' });
       manager.install(); return send(202, manager.state);
     }
@@ -39,21 +39,13 @@ export function createSetupServer({ root, manager, instance, getBackendPort = ()
       req.on('aborted', () => proxy.destroy()); req.pipe(proxy); return;
     }
     if (req.url.startsWith('/api/')) return send(404, { error: '找不到此服務。' });
-    if (!req.url.startsWith('/setup/') && runtimeReady(manager.state) && getUIHandler()) return getUIHandler()(req, res, () => send(404, { error: '找不到頁面。' }));
+    if (runtimeReady(manager.state) && getUIHandler()) return getUIHandler()(req, res, () => send(404, { error: '找不到頁面。' }));
     if (req.method !== 'GET' && req.method !== 'HEAD') return send(405, { error: '不支援此操作。' });
     try {
-      let base, relative;
-      // 有建置好的工作台就直接給它（它自己會顯示啟動檢查卡片並等模型）；沒有建置（首次安裝）才給安裝頁。
-      const built = existsSync(resolve(root, 'dist/index.html'));
-      if (req.url === '/' && !built || req.url === '/setup/') {
-        base = resolve(root, 'scripts/setup/ui'); relative = 'index.html';
-      } else if (req.url.startsWith('/setup/') && ['style.css', 'main.js'].includes(req.url.slice(7))) {
-        base = resolve(root, 'scripts/setup/ui'); relative = req.url.slice(7);
-      } else if (['/setup/runtime-catalog.js', '/setup/runtime-status.js', '/setup/runtime-status.css', '/setup/tokens.css'].includes(req.url)) {
-        base = resolve(root, 'frontend'); relative = req.url.slice(7);
-      } else if (built) {
-        base = resolve(root, 'dist'); relative = req.url === '/' ? 'index.html' : decodeURIComponent(req.url.slice(1));
-      } else return send(404, { error: '找不到頁面。' });
+      // 工作台（dist/）隨 repo 一起發布，啟動檢查與安裝都在它裡面完成；沒有 dist 只會發生在開發者刪掉建置時。
+      if (!existsSync(resolve(root, 'dist/index.html'))) return send(404, { error: '尚未建置工作台：請執行 npm run build:release。' });
+      const base = resolve(root, 'dist');
+      const relative = req.url === '/' ? 'index.html' : decodeURIComponent(req.url.slice(1));
       // Never expose source, .runtime, symlinks outside dist, or a directory listing.
       const file = await realpath(resolve(base, relative));
       const realBase = await realpath(base);

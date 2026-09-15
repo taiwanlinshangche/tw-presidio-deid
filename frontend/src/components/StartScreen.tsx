@@ -17,7 +17,7 @@ export function StartScreen({ wb }: { wb: Workbench }) {
 
   return (
     <main id="drop-zone" className="drop-zone" hidden={phase === 'reading'}>
-      {!cardsGone && <BootChecklist setup={setup} shown={sequence.shown} displayed={sequence.displayed} onSettleEnd={sequence.onSettleEnd} onInstall={wb.actions.install} leaving={started} onLeft={() => setCardsGone(true)} />}
+      {!cardsGone && <BootChecklist setup={setup} shown={sequence.shown} displayed={sequence.displayed} done={sequence.done} onSettleEnd={sequence.onSettleEnd} onInstall={wb.actions.install} leaving={started} onLeft={() => setCardsGone(true)} />}
       {/* 卡片本身就會顯示缺項與安裝按鈕；只有聯絡不到啟動器時才需要一行說明 */}
       <p id="startup-message" role="status" hidden={started || setup !== null}>無法確認啟動狀態，請使用專案啟動檔重新開啟。</p>
       <div className="start-stage" hidden={stageHidden} data-blur={!started}>

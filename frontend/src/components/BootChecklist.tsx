@@ -40,8 +40,8 @@ export function useBootSequence(setup: SetupState | null) {
   return { shown, displayed, done: ended === RUNTIME_ITEMS.length, onSettleEnd };
 }
 
-export function BootChecklist({ setup, shown, displayed, onSettleEnd, onInstall, leaving, onLeft }: {
-  setup: SetupState | null; shown: number; displayed: string[]; onSettleEnd: (index: number) => void; onInstall: () => void; leaving: boolean; onLeft: () => void;
+export function BootChecklist({ setup, shown, displayed, done, onSettleEnd, onInstall, leaving, onLeft }: {
+  setup: SetupState | null; shown: number; displayed: string[]; done: boolean; onSettleEnd: (index: number) => void; onInstall: () => void; leaving: boolean; onLeft: () => void;
 }) {
   const installing = setup?.status === 'installing';
   const progress = setup?.progress;
@@ -54,7 +54,6 @@ export function BootChecklist({ setup, shown, displayed, onSettleEnd, onInstall,
           const status = displayed[index];
           const revealed = index < shown;
           const detail = revealed && status !== 'ready' && typeof item?.detail === 'string' ? item.detail.trim() : '';
-          const actionable = revealed && (status === 'missing' || status === 'error');
           // 安裝進度直接寫在卡片裡（例如「安裝中 35%」），卡片下方不再有任何文字或進度列
           const label = installing && status === 'checking' && item?.detail === '正在安裝' ? (percent === null ? '安裝中' : `安裝中 ${percent}%`) : LABELS[status];
           return (
@@ -71,9 +70,7 @@ export function BootChecklist({ setup, shown, displayed, onSettleEnd, onInstall,
                 {revealed && <span className="boot-card-was" aria-hidden="true">{LABELS.checking}</span>}
                 <span className="boot-card-text">
                   <span className="boot-card-dots" aria-hidden="true"><i /><i /><i /></span>
-                  {actionable
-                    ? <button type="button" className="boot-card-install" aria-label={`${status === 'error' ? '重試' : '安裝'}：${entry.label}`} onClick={onInstall} disabled={installing}>{status === 'error' ? '重試' : '安裝'}</button>
-                    : label}
+                  {label}
                 </span>
               </span>
               {detail && status !== 'checking' && <span className="boot-card-detail">{detail}</span>}
@@ -81,6 +78,10 @@ export function BootChecklist({ setup, shown, displayed, onSettleEnd, onInstall,
           );
         })}
       </ul>
+      {/* 十張都檢查完、有缺項或失敗時，才在卡片下方出現一顆按鈕，一次安裝全部 */}
+      {done && !installing && (setup?.status === 'missing' || setup?.status === 'error') && (
+        <button id="install-all" type="button" className="install-all" onClick={onInstall}>{setup.status === 'error' ? '重試安裝' : '安裝全部'}</button>
+      )}
     </div>
   );
 }

@@ -40,9 +40,9 @@ button.confirm-button:hover:not(:disabled) { background: var(--accent); border-c
 .boot-card[data-shown] .boot-card-was { animation: boot-fade-out 300ms var(--ease-out) both; }
 .boot-card[data-shown] .boot-card-text { animation: boot-settle var(--dur-check-step) var(--ease-out) both; }
 .boot-card:first-child[data-shown] .boot-card-text { animation-delay: 400ms; }
-/* 缺少或失敗的卡片：狀態位置變成「安裝」按鈕，用強調色外框提示可以點 */
-.boot-card-install { min-height: 32px; padding: 4px 14px; font-size: 13px; font-weight: 600; color: var(--accent); background: var(--paper); border: 1.5px solid var(--accent); border-radius: 999px; box-shadow: var(--shadow-sm); }
-.boot-card-install:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
+/* 十張檢查完有缺項：卡片下方的「安裝全部」，與「開始」同款的主按鈕 */
+.install-all { min-height: 52px; padding: 0 40px; font-size: 17px; font-weight: 500; letter-spacing: .04em; color: var(--paper); background: var(--ink); border: 1.5px solid var(--ink); border-radius: var(--radius-2); box-shadow: var(--shadow-md); animation: block-in var(--dur-block) var(--ease-out) both; }
+.install-all:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
 /* checking：AI Loader「dots」的 CSS 版 */
 .boot-card-dots { display: none; gap: 3px; }
 .boot-card[data-status="checking"] .boot-card-dots { display: inline-flex; }

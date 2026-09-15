@@ -4,7 +4,7 @@
 
 ## 給第一次使用的人：從零開始的完整步驟
 
-你不需要會用 GitHub，也不需要先安裝任何程式。照下面做，大約 15 到 30 分鐘（大部分是等待下載）。
+你不需要會用 GitHub；除了建議安裝的 Git 之外，也不需要先安裝任何程式。照下面做，大約 15 到 30 分鐘（大部分是等待下載）。
 
 ### 你需要準備的
 
@@ -18,14 +18,62 @@ Intel 晶片的 Mac、Windows ARM 與 Linux 目前不支援。不確定自己的
 
 ### 第 1 步：下載專案
 
+有兩種方法，選一種就好。
+
+#### 方法 A：用 Git 下載（建議，之後更新只要一行指令）
+
+Git 是一個免費的小工具，`git clone` 這個指令會把整個專案複製到你的電腦，並且記住它是從哪裡來的。這個專案會持續更新，用 Git 下載的話，之後只要打一行 `git pull` 就能拿到新版本，不用重新下載、也不用搬檔案。
+
+**先確認電腦有沒有 Git**
+
+- **Mac**：打開「終端機」app（在「應用程式 → 工具程式」裡），輸入下面這行，按 Enter：
+
+  ```bash
+  git --version
+  ```
+
+  看到 `git version 2.x.x` 這種字就表示有了。如果跳出視窗問你要不要安裝「命令列開發者工具」，按 **安裝**，等它跑完（幾分鐘），再輸入一次 `git --version` 確認。
+- **Windows**：到 <https://git-scm.com/download/win> 下載 Git for Windows，執行安裝程式，全部用預設值一路按 **Next** 到完成。安裝完，打開一個**新的** PowerShell 視窗（按開始鍵，輸入 `PowerShell`，按 Enter），輸入 `git --version`，看到 `git version 2.x.x` 就對了。
+
+**下載專案**
+
+1. 在終端機（Mac）或 PowerShell（Windows）裡，先移到你想放專案的地方。這裡用「文件」資料夾：
+
+   Mac：
+
+   ```bash
+   cd ~/Documents
+   ```
+
+   Windows：
+
+   ```bash
+   cd $HOME\Documents
+   ```
+
+2. 輸入下面這行，按 Enter：
+
+   ```bash
+   git clone https://github.com/taiwanlinshangche/tw-presidio-deid.git
+   ```
+
+3. 會跑幾行字，幾秒到一分鐘就好。「文件」裡會多出一個 `tw-presidio-deid` 資料夾，這就是專案。
+
+#### 方法 B：直接下載 ZIP（不想裝 Git 的話）
+
 1. 用瀏覽器打開 <https://github.com/taiwanlinshangche/tw-presidio-deid>。
 2. 找到綠色的 **Code** 按鈕（在檔案清單右上方），點一下。
 3. 選單最下面按 **Download ZIP**，會下載一個 `tw-presidio-deid-main.zip`。
 
-### 第 2 步：解壓縮，放到固定位置
+用 ZIP 的話，之後要更新到新版本就得重新下載一次，再自己把 `.runtime` 資料夾搬到新資料夾裡（見下面的常見問題）。
 
-- **Mac**：到「下載項目」資料夾，對 zip 檔按兩下，會出現 `tw-presidio-deid-main` 資料夾。把這個資料夾拖到「文件」裡（放哪裡都可以，但之後不要再移動或改名）。
-- **Windows**：到「下載」資料夾，在 zip 檔上按右鍵 → **全部解壓縮** → 解壓縮。把解出來的 `tw-presidio-deid-main` 資料夾移到「文件」裡。
+### 第 2 步：放到固定位置
+
+- **用方法 A 的人**：專案已經在「文件」裡的 `tw-presidio-deid` 資料夾，不用解壓縮，直接跳到第 3 步。
+- **用方法 B 的人，Mac**：到「下載項目」資料夾，對 zip 檔按兩下，會出現 `tw-presidio-deid-main` 資料夾。把這個資料夾拖到「文件」裡。
+- **用方法 B 的人，Windows**：到「下載」資料夾，在 zip 檔上按右鍵 → **全部解壓縮** → 解壓縮。把解出來的 `tw-presidio-deid-main` 資料夾移到「文件」裡。
+
+放哪裡都可以，但之後不要再移動或改名。下面步驟寫的 `tw-presidio-deid-main`，用方法 A 的人就是 `tw-presidio-deid`，其他都一樣。
 
 ### 第 3 步：啟動
 
@@ -46,11 +94,11 @@ Intel 晶片的 Mac、Windows ARM 與 Linux 目前不支援。不確定自己的
 ### 第 4 步：第一次啟動會自動安裝（只有這一次）
 
 1. 視窗會先下載執行環境（Node.js），顯示進度。
-2. 接著瀏覽器會自動打開一個網頁，第一次會看到「準備工作台」的安裝頁，上面列出十個項目。按 **安裝缺少的元件**。
+2. 接著瀏覽器會自動打開工作台首頁，十張檢查卡片會一張一張跑完。第一次大部分會是紅色的「缺少或損壞」，跑完後卡片下方會出現 **安裝全部**，按下去。
 3. 等它跑完。這一步會下載 Python、辨識套件和中文模型，總共幾 GB，依網路速度大約 10 到 20 分鐘。畫面會顯示每個項目的進度，不用一直盯著。
-4. 十個項目都變成「✓ 可用」後，網頁會自動切換到工作台首頁。
+4. 十張卡片都變成綠色的「✓ 可用」後，背景會變模糊，中間出現「開始」。
 
-如果中途斷線或失敗，畫面會出現「重試」，按一下就從沒完成的地方繼續，已經下載好的不會重來。
+如果中途斷線或失敗，卡片下方會出現「重試安裝」，按一下就從沒完成的地方繼續，已經下載好的不會重來。
 
 ### 第 5 步：開始使用
 
@@ -71,7 +119,14 @@ Intel 晶片的 Mac、Windows ARM 與 Linux 目前不支援。不確定自己的
 - **瀏覽器沒有自動打開**：自己打開瀏覽器，在網址列輸入視窗裡顯示的網址，通常是 `http://127.0.0.1:4173`。
 - **視窗說「另一個初始化程序正在執行」**：上一次的視窗還開著，找到它關掉再試。
 - **視窗說「工作台已開啟」**：表示已經在跑了，直接打開瀏覽器用就好。
-- **想更新到新版本**：重新做第 1、2 步，把新的資料夾放到舊資料夾旁邊，再把舊資料夾裡的 `.runtime` 資料夾（隱藏的，Mac 按 `Command + Shift + .` 可以顯示）整個拖到新資料夾裡，就不用重新下載模型。懶得搬的話，直接用新資料夾重新安裝也可以。
+- **想更新到新版本（用方法 A、Git 下載的人）**：先關掉工作台。打開終端機（Mac）或 PowerShell（Windows），移到專案資料夾（例如 `cd ~/Documents/tw-presidio-deid`，Windows 是 `cd $HOME\Documents\tw-presidio-deid`），輸入 `git pull`，按 Enter，等它跑完幾行字。然後照平常的方式按兩下 `start.command` 或 `start.bat` 啟動就好。`.runtime` 資料夾（模型、Python）都會留著，不用重新下載；如果這次更新有改到網頁，第一次啟動會自動重新建置，多等一下就好。 如果 `git pull` 說有「本機變更會被覆蓋」之類的訊息，先執行下面這行再重新 `git pull`：
+
+  ```bash
+  git checkout -- .
+  ```
+
+- **想更新到新版本（用方法 B、ZIP 下載的人）**：重新做第 1 步方法 B 和第 2 步，把新的資料夾放到舊資料夾旁邊，再把舊資料夾裡的 `.runtime` 資料夾（隱藏的，Mac 按 `Command + Shift + .` 可以顯示）整個拖到新資料夾裡，就不用重新下載模型。懶得搬的話，直接用新資料夾重新安裝也可以。
+- **Git 下載和 ZIP 下載有什麼差別**：拿到的檔案完全一樣，用起來也完全一樣，文件一樣只留在你的電腦、不會上傳。唯一的差別是 Git 會記住專案是從哪裡來的，所以之後更新只要打一行 `git pull`；ZIP 沒有這個連結，每次更新都要重新下載、自己搬 `.runtime`。所以我們建議用 Git。
 - **想移除**：把整個資料夾刪掉就好。它不會在系統其他地方留下東西，也沒有改任何系統設定。
 - **我的文件會被傳出去嗎**：不會。辨識在你的電腦上跑，網頁只連自己電腦的 `127.0.0.1`，關掉網路一樣能用。
 
@@ -147,7 +202,9 @@ cd tw-presidio-deid
 ./start.command        # macOS；Windows 用 .\start.bat
 ```
 
-不需要先安裝 Node.js、Python、Presidio 或模型；啟動器會處理。首次啟動若缺少相容 Node.js，啟動視窗會先顯示下載進度；網頁出現後，其餘步驟都在網頁顯示。保留啟動視窗，結束時按 `Control + C`。之後每次啟動都直接進工作台首頁：十張檢查卡片逐張揭露，缺少或失敗的卡片會顯示「安裝」或「重試」按鈕，安裝進度直接寫在那張卡片上；只有網頁建置過期時會自動重建。
+不需要先安裝 Node.js、Python、Presidio 或模型；啟動器會處理。首次啟動若缺少相容 Node.js，啟動視窗會先顯示下載進度；網頁出現後，其餘步驟都在網頁顯示。保留啟動視窗，結束時按 `Control + C`。每次啟動都直接進工作台首頁：十張檢查卡片逐張揭露，全部檢查完若有缺項，卡片下方出現「安裝全部」，安裝進度直接寫在卡片上；只有網頁建置過期時會自動重建。
+
+建置好的工作台（`dist/`）與建置紀錄（`frontend-build.json`）隨 repo 一起發布，所以下載 ZIP 的人不需要 npm 套件就能直接使用。改過 `frontend/`、`package.json`、`package-lock.json` 或 `vite.config.js` 之後，發布前要執行 `npm run build:release` 重新產生這兩者，`npm run test:setup` 會檢查它們是否與原始碼一致。
 
 ### 安裝與重試
 
@@ -156,7 +213,7 @@ cd tw-presidio-deid
 - 缺少元件時才安裝；已完成步驟會重新檢查並沿用。之後仍使用同一個啟動檔，不用再次輸入安裝指令。
 - 有可用下載大小時顯示百分比；模型顯示實際完成檔案數；套件安裝與模型載入顯示動態進度條。
 - 第一次需要網路與數 GB 可用磁碟空間；速度依網路與電腦而定。完成後可離線辨識，啟動不會自動更新模型或套件。
-- 更新原始碼後，啟動器會比對前端來源與建置結果，只有網頁建置過期時自動重建；其他缺項在卡片上顯示「安裝」按鈕。
+- 更新原始碼後，啟動器會比對前端來源與建置結果，只有網頁建置過期時自動重建（需要 npm 套件，會先 `npm ci`）；其他缺項由卡片下方的「安裝全部」處理。
 - 同一個專案重複啟動會重新檢查並開啟既有工作台，不會自動安裝缺項；預設 4173 已被其他程式使用時，會選擇另一個可用埠，不停止其他程式。
 
 第一版目標是 macOS 14+ Apple Silicon 與 Windows x64；Intel Mac、Windows ARM、Linux 暫不承諾支援。Windows 入口尚未在真實 Windows 機器上做完整端到端驗收，不能把本機 Mac 測試當成 Windows 驗收。
@@ -214,9 +271,9 @@ cd tw-presidio-deid
 ```text
 frontend/
   index.html             React 掛載點與 CSP
-  tokens.css             設計 token（色彩、圓角、陰影、緩動、時長），安裝頁共用
+  tokens.css             設計 token（色彩、圓角、陰影、緩動、時長）
   style.css              全域樣式、閱讀版面、標記與遮罩、動效 keyframes
-  runtime-status.js      isReady 判定與安裝頁的啟動檢查清單（純 DOM）
+  runtime-status.js      isReady 判定與狀態文字
   document.js            檔案驗證與安全 Markdown 渲染
   deid.js                API、區間驗證、單處／全文遮罩切換
   entity-matches.js      從已辨識文字補找相同標籤
@@ -251,7 +308,6 @@ tests/                  瀏覽器回歸與真實模型驗收
 ```sh
 npm test
 npm run test:setup
-npm run test:setup:ui
 npm run test:backend
 npm run build
 npm run test:live
@@ -262,7 +318,6 @@ npm audit
 瀏覽器測試需要已安裝 Google Chrome（一般使用不強制 Chrome）。`npm run test:backend` 使用 PATH 中的 Python；若只透過一鍵安裝準備環境，Mac 改用 `.runtime/venv/bin/python -m unittest discover -s backend/tests -v`，Windows 改用 `.runtime\venv\Scripts\python.exe -m unittest discover -s backend/tests -v`。
 
 - `npm run test:setup`：Node.js 安裝流程、校驗、重試、啟動鎖與 API 邊界測試。
-- `npm run test:setup:ui`：受控狀態的安裝頁測試；不執行真實下載。
 - `npm test`：使用可控制的 API 回應，測試介面與遮罩邏輯，包括錯誤、BOM／CRLF、emoji、鍵盤、取消、安全預覽及受控時鐘配音排程。
 - `npm run test:backend`：測試 BIES 合併、區間、欄位補充、請求驗證與服務忙碌情境，不載入模型。
 - `npm run test:live`：**真實 Python 模型**與打包後網頁，完整檢查政府提案辨識、hover、點擊、下載及重新開檔；另驗證七個 WAV 在瀏覽器解碼與真實播放流程。會啟動或沿用 4173 的本機服務，不使用模擬 API。
