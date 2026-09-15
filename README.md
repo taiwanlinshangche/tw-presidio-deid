@@ -18,7 +18,7 @@ Intel 晶片的 Mac、Windows ARM 與 Linux 目前不支援。不確定自己的
 
 ### 第 1 步：下載專案
 
-1. 用瀏覽器打開 <https://github.com/taiwanlinshangche-main/tw-presidio-deid>。
+1. 用瀏覽器打開 <https://github.com/taiwanlinshangche/tw-presidio-deid>。
 2. 找到綠色的 **Code** 按鈕（在檔案清單右上方），點一下。
 3. 選單最下面按 **Download ZIP**，會下載一個 `tw-presidio-deid-main.zip`。
 
@@ -142,7 +142,7 @@ Intel 晶片的 Mac、Windows ARM 與 Linux 目前不支援。不確定自己的
 已安裝 Git 的人可以直接 clone：
 
 ```bash
-git clone https://github.com/taiwanlinshangche-main/tw-presidio-deid.git
+git clone https://github.com/taiwanlinshangche/tw-presidio-deid.git
 cd tw-presidio-deid
 ./start.command        # macOS；Windows 用 .\start.bat
 ```
