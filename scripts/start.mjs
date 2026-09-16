@@ -1,4 +1,5 @@
 import { resolve, join } from 'node:path';
+import { existsSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -10,6 +11,11 @@ import { acquireSession } from './setup/session.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const development = process.argv.includes('--dev');
+// 開發模式要用 node_modules 裡的 Vite；全新 clone 沒有 node_modules（隨附建置不需要它），一開始就講清楚，不要等模型載完才失敗。
+if (development && !existsSync(join(root, 'node_modules/vite/dist/node/index.js'))) {
+  console.error('開發模式需要 npm 套件：請先執行 npm ci，一般使用請直接執行 start.command（或 npm start）。');
+  process.exit(1);
+}
 const shouldOpen = process.argv.includes('--open');
 function openBrowser(url) {
   const command = process.platform === 'win32' ? 'rundll32.exe' : process.platform === 'darwin' ? '/usr/bin/open' : 'xdg-open';

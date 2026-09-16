@@ -260,7 +260,7 @@ cd tw-presidio-deid
 ./start.command        # macOS；Windows 用 .\start.bat
 ```
 
-不需要先安裝 Node.js、Python、Presidio 或模型；啟動器會處理。首次啟動若缺少相容 Node.js，啟動視窗會先顯示下載進度；網頁出現後，其餘步驟都在網頁顯示。保留啟動視窗，結束時按 `Control + C`。每次啟動都直接進工作台首頁：十張檢查卡片逐張揭露，全部檢查完若有缺項，卡片下方出現「安裝全部」，安裝進度直接寫在卡片上；只有網頁建置過期時會自動重建。
+不需要先安裝 Node.js、Python、Presidio 或模型；啟動器會處理。**一般使用一律用 `start.command`／`start.bat`。** `npm run dev` 是開發模式，需要 `node_modules` 裡的 Vite，全新 clone 沒有，要先 `npm ci`；否則會在模型載入完成後才報「找不到 vite」。首次啟動若缺少相容 Node.js，啟動視窗會先顯示下載進度；網頁出現後，其餘步驟都在網頁顯示。保留啟動視窗，結束時按 `Control + C`。每次啟動都直接進工作台首頁：十張檢查卡片逐張揭露，全部檢查完若有缺項，卡片下方出現「安裝全部」，安裝進度直接寫在卡片上；只有網頁建置過期時會自動重建。
 
 建置好的工作台（`dist/`）與建置紀錄（`frontend-build.json`）隨 repo 一起發布，所以下載 ZIP 的人不需要 npm 套件就能直接使用。改過 `frontend/`、`package.json`、`package-lock.json` 或 `vite.config.js` 之後，發布前要執行 `npm run build:release` 重新產生這兩者，`npm run test:setup` 會檢查它們是否與原始碼一致。
 
